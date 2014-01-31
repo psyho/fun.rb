@@ -1,4 +1,4 @@
-# Fun
+# fun.rb
 
 Making Ruby Fun(ctional) with first-order functions.
 
@@ -18,7 +18,32 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Automatic currying of Procs
+
+    # Without fun.rb
+    sum = proc{|x,y| x + y}
+    inc = sum.curry[1]
+    inc[10] # = 11
+
+    # With fun.rb
+    sum = fn{|x,y| x + y}
+    inc = sum[1]
+    inc[10] # = 11
+
+### Procs with anonymous arguments
+
+    # Without fun.rb
+    inc = proc{ |x| x+1 }
+    mul = proc{ |x, y| x*y }
+
+    # With fun.rb
+    inc = f{it+1}
+    mul = f{a*b}
+
+### Rich library of first-order functions
+
+    string_or_symbol = any_pred[is_a[String], is_a[Symbol]]
+    filter(string_or_symbol, [1, :a, 2, "b"]) # = [:a, :b]
 
 ## Contributing
 
