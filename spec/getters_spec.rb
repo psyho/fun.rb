@@ -23,4 +23,35 @@ describe Fun::Getters do
       expect(dot[:name, bob]).to eq("Bob")
     end
   end
+
+  describe "key" do
+    key = Fun.key
+    name = key[:name]
+
+    it "returns the map value under key" do
+      expect(name[name: "Bob", id: 1]).to eq("Bob")
+    end
+
+    it "returns nil if the key is not present" do
+      expect(name[{}]).to eq(nil)
+    end
+
+    it "returns nil when called with nil hash" do
+      expect(name[nil]).to eq(nil)
+    end
+
+    it "allows swapping map and the symbol" do
+      hash = {foo: 123}
+
+      expect(key[:foo, hash]).to eq(123)
+      expect(key[hash, :foo]).to eq(123)
+    end
+
+    it "is fully curriable" do
+      hash = {foo: 123}
+
+      expect(key[:foo][hash]).to eq(123)
+      expect(key[:foo, hash]).to eq(123)
+    end
+  end
 end
