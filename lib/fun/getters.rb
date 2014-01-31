@@ -7,7 +7,7 @@ module Fun
     end
 
     defn :key do |symbol, hash|
-      hash, symbol = symbol, hash if hash.is_a?(Symbol)
+      hash, symbol = symbol, hash if hash.is_a?(Symbol) || hash.is_a?(String)
       hash && hash[symbol]
     end
   end
