@@ -47,20 +47,6 @@ describe Fun::Getters do
       expect(name[nil]).to eq(nil)
     end
 
-    it "allows swapping map and the symbol" do
-      hash = {foo: 123}
-
-      expect(key[:foo, hash]).to eq(123)
-      expect(key[hash, :foo]).to eq(123)
-    end
-
-    it "allows swapping map and the string" do
-      hash = {"foo" => 123}
-
-      expect(key['foo', hash]).to eq(123)
-      expect(key[hash, 'foo']).to eq(123)
-    end
-
     it "is fully curriable" do
       hash = {foo: 123}
 
@@ -86,17 +72,9 @@ describe Fun::Getters do
       expect(bar[hash]).to eq(1)
     end
 
-    it "allows swapping the symbol and the hash" do
-      hash = {foo: 123, "bar" => 1}
-
-      expect(get[hash, :bar]).to eq(1)
-      expect(get[:bar, hash]).to eq(1)
-    end
-
     it "takes a string, as well as symbol as the key" do
       hash = {foo: 123, "bar" => 1}
 
-      expect(get[hash, "foo"]).to eq(123)
       expect(get["foo", hash]).to eq(123)
     end
 
@@ -118,18 +96,11 @@ describe Fun::Getters do
       expect(first[arr]).to eq(:a)
     end
 
-    it "allows swapping the array and the element" do
-      arr = [:a, :b, :c]
-
-      expect(nth[arr, 1]).to eq(:b)
-      expect(nth[1, arr]).to eq(:b)
-    end
-
     it "is fully curriable" do
       arr = [:a, :b, :c]
 
-      expect(nth[arr][1]).to eq(:b)
-      expect(nth[arr, 1]).to eq(:b)
+      expect(nth[1][arr]).to eq(:b)
+      expect(nth[1, arr]).to eq(:b)
     end
   end
 end

@@ -2,7 +2,8 @@ module Fun
   module Defn
     def defn(name, &block)
       define_method(name) do |*args|
-        Fun.fn(&block)[*args]
+        function = Fun.fn(&block)
+        args.any? ? function[*args] : function
       end
     end
   end
