@@ -1,5 +1,6 @@
 require "fun/version"
+require "fun/fn"
 
 module Fun
-  # Your code goes here...
+  extend Fn
 end
