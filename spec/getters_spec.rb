@@ -68,4 +68,43 @@ describe Fun::Getters do
       expect(key[:foo, hash]).to eq(123)
     end
   end
+
+  describe "get" do
+    get = Fun.get
+
+    it "returns the value under symbol" do
+      hash = {foo: 123, "bar" => 1}
+      foo = get[:foo]
+
+      expect(foo[hash]).to eq(123)
+    end
+
+    it "returns the value under string" do
+      hash = {foo: 123, "bar" => 1}
+      bar = get[:bar]
+
+      expect(bar[hash]).to eq(1)
+    end
+
+    it "allows swapping the symbol and the hash" do
+      hash = {foo: 123, "bar" => 1}
+
+      expect(get[hash, :bar]).to eq(1)
+      expect(get[:bar, hash]).to eq(1)
+    end
+
+    it "takes a string, as well as symbol as the key" do
+      hash = {foo: 123, "bar" => 1}
+
+      expect(get[hash, "foo"]).to eq(123)
+      expect(get["foo", hash]).to eq(123)
+    end
+
+    it "is fully curriable" do
+      hash = {foo: 123, "bar" => 1}
+
+      expect(get[:foo][hash]).to eq(123)
+      expect(get[:bar, hash]).to eq(1)
+    end
+  end
 end
