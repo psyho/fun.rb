@@ -107,4 +107,29 @@ describe Fun::Getters do
       expect(get[:bar, hash]).to eq(1)
     end
   end
+
+  describe "nth" do
+    nth = Fun.nth
+
+    it "returns the nth element of an array" do
+      arr = [:a, :b, :c]
+      first = nth[0]
+
+      expect(first[arr]).to eq(:a)
+    end
+
+    it "allows swapping the array and the element" do
+      arr = [:a, :b, :c]
+
+      expect(nth[arr, 1]).to eq(:b)
+      expect(nth[1, arr]).to eq(:b)
+    end
+
+    it "is fully curriable" do
+      arr = [:a, :b, :c]
+
+      expect(nth[arr][1]).to eq(:b)
+      expect(nth[arr, 1]).to eq(:b)
+    end
+  end
 end

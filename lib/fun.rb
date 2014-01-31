@@ -6,7 +6,4 @@ require "fun/defn"
 require "fun/getters"
 
 module Fun
-  extend Fn
-  extend F
-  extend Getters
 end

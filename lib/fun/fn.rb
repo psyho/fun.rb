@@ -4,4 +4,6 @@ module Fun
       block.curry
     end
   end
+
+  extend Fn
 end

@@ -32,4 +32,6 @@ module Fun
       arg_count ? function.curry(arg_count) : function
     end
   end
+
+  extend F
 end
