@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["adam@pohorecki.pl"]
   spec.description   = %q{Making Ruby Fun(ctional)}
   spec.summary       = %q{Making Ruby Fun(ctional)}
-  spec.homepage      = "https://github.com/psyho/fun-rb"
+  spec.homepage      = "https://github.com/psyho/fun.rb"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
