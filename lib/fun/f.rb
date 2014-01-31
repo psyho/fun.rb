@@ -24,10 +24,12 @@ module Fun
       end
     end
 
-    def f(&block)
-      proc do |*args|
+    def f(arg_count = nil, &block)
+      function = proc do |*args|
         Context.new(args, block.binding).instance_eval(&block)
       end
+
+      arg_count ? function.curry(arg_count) : function
     end
   end
 end
