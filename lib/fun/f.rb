@@ -4,12 +4,12 @@ module Fun
       NAMES=('a'..'z').to_a
 
       def initialize(args, block)
-        @args = args
+        @__args__ = args
         __setup__context__(block)
       end
 
       def it
-        @args[0]
+        @__args__[0]
       end
 
       private
@@ -19,7 +19,7 @@ module Fun
       end
 
       def method_missing(name, *args, &block)
-        return @args[name.to_s.to_i(36) - 10] if respond_to_missing?(name, true)
+        return @__args__[name.to_s.to_i(36) - 10] if respond_to_missing?(name, true)
         __delegate_to_superself__(name, *args, &block)
       end
     end
