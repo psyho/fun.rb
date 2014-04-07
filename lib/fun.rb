@@ -1,6 +1,7 @@
 require "fun/version"
 
 require "fun/proc_context"
+require "fun/curry"
 
 require "fun/loop_recur"
 require "fun/fn"
