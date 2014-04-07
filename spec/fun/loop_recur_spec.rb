@@ -40,4 +40,16 @@ describe "tloop/recur" do
 
     expect(factorial[10000]).to eq((1..10000).reduce(:*))
   end
+
+  it "blows up if you don't recur as the last instruction in the function" do
+    factorial = tfn do |n|
+      if n <= 1
+        1
+      else
+        recur(n-1) * n
+      end
+    end
+
+    expect{ factorial[10000] }.to raise_error(Fun::LoopRecur::InvalidRecur)
+  end
 end

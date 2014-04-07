@@ -1,10 +1,17 @@
 module Fun
   module LoopRecur
+    class InvalidRecur < StandardError
+    end
+
     class Recur
       attr_reader :args
 
       def initialize(args)
         @args = args
+      end
+
+      def method_missing(name, *args, &block)
+        raise InvalidRecur, "recur must be the last instruction in the function/tloop!"
       end
 
       def self.recur?(object)
