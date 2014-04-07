@@ -1,11 +1,11 @@
 module Fun
   module F
-    class Context < BasicObject
+    class Context < ProcContext
       NAMES=('a'..'z').to_a
 
-      def initialize(args, binding)
+      def initialize(args, block)
         @args = args
-        @super_self = binding.eval("self")
+        __setup__context__(block)
       end
 
       def it
@@ -20,13 +20,13 @@ module Fun
 
       def method_missing(name, *args, &block)
         return @args[name.to_s.to_i(36) - 10] if respond_to_missing?(name, true)
-        @super_self.__send__(name, *args, &block)
+        __delegate_to_superself__(name, *args, &block)
       end
     end
 
     def f(arg_count = nil, &block)
       function = proc do |*args|
-        Context.new(args, block.binding).instance_eval(&block)
+        Context.new(args, block).__call__
       end
 
       arg_count ? function.curry(arg_count) : function
