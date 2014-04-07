@@ -33,8 +33,8 @@ describe "f{}" do
     expect(greet[]).to eq("Hello, World!")
   end
 
-  it "creates a curriable function if number of arguments is passed" do
-    sum = f(3){a+b+c}
+  it "creates a curriable function" do
+    sum = f{a+b+c}
 
     expect(sum[1][2][3]).to eq(6)
   end
