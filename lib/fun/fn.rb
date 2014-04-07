@@ -1,7 +1,8 @@
 module Fun
   module Fn
     def fn(&block)
-      block.curry
+      function = Fun.loop_recur(&block)
+      Fun.auto_curry(function, block.arity)
     end
   end
 

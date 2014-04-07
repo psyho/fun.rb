@@ -44,7 +44,7 @@ module Fun
       end
     end
 
-    def tfn(&block)
+    def loop_recur(&block)
       proc do |*args|
         LoopRecurDecorator.new(block).__call__(*args)
       end

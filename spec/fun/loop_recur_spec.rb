@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "tloop/recur" do
   it "regular recursion blows the stack" do
-    factorial = tfn do |n|
+    factorial = fn do |n|
       if n <= 1
         1
       else
@@ -16,7 +16,7 @@ describe "tloop/recur" do
   end
 
   it "allows deep recursion without blowing the stack" do
-    factorial = tfn do |n|
+    factorial = fn do |n|
       tloop do |k = n, result = 1|
         if k <= 1
           result
@@ -30,7 +30,7 @@ describe "tloop/recur" do
   end
 
   it "allows self-recursion" do
-    factorial = tfn do |n, result = 1|
+    factorial = fn do |n, result = 1|
       if n <= 1
         result
       else
@@ -42,7 +42,7 @@ describe "tloop/recur" do
   end
 
   it "blows up if you don't recur as the last instruction in the function" do
-    factorial = tfn do |n|
+    factorial = fn do |n|
       if n <= 1
         1
       else
