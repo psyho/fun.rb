@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-
 describe "tloop/recur" do
   it "regular recursion blows the stack" do
     factorial = tfn do |n|
