@@ -35,6 +35,12 @@ describe Fun::F::ImplicitArgumentCounter do
     expect(arg_count(foo)).to eq(5)
   end
 
+  it "returns -1 if one of the called methods is args" do
+    foo = proc{args.map{|i| i + 1}}
+
+    expect(arg_count(foo)).to eq(-1)
+  end
+
   it "does not count bound local variables" do
     a = 1
     foo = proc{a + 1}

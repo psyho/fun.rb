@@ -33,6 +33,13 @@ describe "f{}" do
     expect(greet[]).to eq("Hello, World!")
   end
 
+  it "allows referencing all of the passed args" do
+    sum = f{ args.reduce(:+) }
+
+    expect(sum[1, 2]).to eq(3)
+    expect(sum[1, 2, 3, 4]).to eq(10)
+  end
+
   it "creates a curriable function" do
     sum = f{a+b+c}
 

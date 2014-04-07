@@ -9,10 +9,11 @@ module Fun
       end
 
       def it
-        @__args__[0]
+        args[0]
       end
 
-      def arg_count
+      def args
+        @__args__
       end
 
       private
@@ -22,7 +23,7 @@ module Fun
       end
 
       def method_missing(name, *args, &block)
-        return @__args__[name.to_s.to_i(36) - 10] if respond_to_missing?(name, true)
+        return self.args[name.to_s.to_i(36) - 10] if respond_to_missing?(name, true)
         __delegate_to_superself__(name, *args, &block)
       end
     end
@@ -35,6 +36,7 @@ module Fun
       def count
         bytecode = RubyVM::InstructionSequence.disasm(block)
         methods = called_methods(bytecode)
+        return -1 if varargs?(methods)
         methods << 'a' if methods.include?('it')
         last_var = ImplicitArgumentsContext::NAMES.reverse.detect{|n| methods.include?(n)}
         index = ImplicitArgumentsContext::NAMES.index(last_var)
@@ -56,8 +58,8 @@ module Fun
         Set.new(sends + simple_sends)
       end
 
-      def method_call?(code)
-        code.first == :opt_send_simple
+      def varargs?(methods)
+        methods.include?('args')
       end
 
       attr_reader :block
