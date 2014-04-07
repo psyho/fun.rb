@@ -5,6 +5,7 @@ module Fun
     end
 
     def __call__(*args)
+      __copy_instance_variables__
       instance_exec(*args, &__block__)
     end
 
@@ -21,6 +22,13 @@ module Fun
 
     def __delegate_to_superself__(name, *args, &block)
       @__super_self__.__send__(name, *args, &block)
+    end
+
+    def __copy_instance_variables__
+      __super_self__.instance_variables.each do |name|
+        # there's no instance_variable_set on BasicObject
+        instance_eval("#{name} = __super_self__.instance_variable_get(#{name.inspect})")
+      end
     end
 
     attr_reader :__super_self__, :__block__
