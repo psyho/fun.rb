@@ -66,11 +66,11 @@ module Fun
     end
 
     def add_implicit_arguments(block)
-      function = proc do |*args|
+      function = lambda do |*args|
         ImplicitArgumentsContext.new(args, block).__call__
       end
 
-      function.curry(ImplicitArgumentCounter.new(block).count)
+      Fun.auto_curry(function, ImplicitArgumentCounter.new(block).count)
     end
 
     def f(&block)

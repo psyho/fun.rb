@@ -3,11 +3,8 @@ require 'spec_helper'
 describe "tloop/recur" do
   it "regular recursion blows the stack" do
     factorial = fn do |n|
-      if n <= 1
-        1
-      else
-        n * factorial[n-1]
-      end
+      return 1 if n <= 1
+      n * factorial[n-1]
     end
 
     expect {
@@ -18,11 +15,8 @@ describe "tloop/recur" do
   it "allows deep recursion without blowing the stack" do
     factorial = fn do |n|
       tloop do |k = n, result = 1|
-        if k <= 1
-          result
-        else
-          recur(k - 1, result * k)
-        end
+        return result if k <= 1
+        recur(k - 1, result * k)
       end
     end
 
@@ -31,11 +25,8 @@ describe "tloop/recur" do
 
   it "allows self-recursion" do
     factorial = fn do |n, result = 1|
-      if n <= 1
-        result
-      else
-        recur(n - 1, result * n)
-      end
+      return result if n <= 1
+      recur(n - 1, result * n)
     end
 
     expect(factorial[10000]).to eq((1..10000).reduce(:*))
@@ -43,11 +34,8 @@ describe "tloop/recur" do
 
   it "blows up if you don't recur as the last instruction in the function" do
     factorial = fn do |n|
-      if n <= 1
-        1
-      else
-        recur(n-1) * n
-      end
+      return 1 if n <= 1
+      recur(n-1) * n
     end
 
     expect{ factorial[10000] }.to raise_error(Fun::LoopRecur::InvalidRecur)

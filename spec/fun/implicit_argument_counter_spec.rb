@@ -6,44 +6,44 @@ describe Fun::F::ImplicitArgumentCounter do
   end
 
   it "returns 1 for a function that only contains a reference to it" do
-    foo = proc{it + 1}
+    foo = lambda{it + 1}
 
     expect(arg_count(foo)).to eq(1)
   end
 
   it "returns 3 for fuction that uses a, b, and c" do
-    foo = proc{a * b + c}
+    foo = lambda{a * b + c}
 
     expect(arg_count(foo)).to eq(3)
   end
 
   it "counts variables also in deeply nested expressions" do
-    foo = proc{ a.map{|i| i + b } + foo(c) }
+    foo = lambda{ a.map{|i| i + b } + foo(c) }
 
     expect(arg_count(foo)).to eq(3)
   end
 
   it "returns 3 for a function that only uses c" do
-    foo = proc{ bar * c }
+    foo = lambda{ bar * c }
 
     expect(arg_count(foo)).to eq(3)
   end
 
   it "returns 5 for a function that uses it and e" do
-    foo = proc{ it + e }
+    foo = lambda{ it + e }
 
     expect(arg_count(foo)).to eq(5)
   end
 
   it "returns -1 if one of the called methods is args" do
-    foo = proc{args.map{|i| i + 1}}
+    foo = lambda{args.map{|i| i + 1}}
 
     expect(arg_count(foo)).to eq(-1)
   end
 
   it "does not count bound local variables" do
     a = 1
-    foo = proc{a + 1}
+    foo = lambda{a + 1}
 
     expect(arg_count(foo)).to eq(0)
   end

@@ -21,7 +21,8 @@ module Fun
 
     class LoopRecurDecorator < ProcContext
       def tloop(&block)
-        @__loop__ = block
+        @__has_loop__ = true
+        define_singleton_method(:__call_loop__, &block)
         recur
       end
 
@@ -32,20 +33,24 @@ module Fun
       def __call__(*args)
         result = super
         while Recur.recur?(result)
-          result = instance_exec(*result.args, &__loop__)
+          result = __recur__(*result.args)
         end
         result
       end
 
       private
 
-      def __loop__
-        @__loop__ || __block__
+      def __recur__(*args)
+        if @__has_loop__
+          __call_loop__(*args)
+        else
+          __call_block__(*args)
+        end
       end
     end
 
-    def loop_recur(&block)
-      proc do |*args|
+    def loop_recur(block)
+      lambda do |*args|
         LoopRecurDecorator.new(block).__call__(*args)
       end
     end

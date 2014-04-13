@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "f{}" do
-  it "creates procs" do
+  it "creates lambdas" do
     foo = f{:foo}
 
     expect(foo[]).to eq(:foo)
@@ -44,5 +44,14 @@ describe "f{}" do
     sum = f{a+b+c}
 
     expect(sum[1][2][3]).to eq(6)
+  end
+
+  it "allows using return" do
+    max = f {
+      return a if a > b
+      b
+    }
+
+    expect(max[10, 20]).to eq(20)
   end
 end

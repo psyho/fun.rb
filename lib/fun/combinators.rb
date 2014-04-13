@@ -3,7 +3,7 @@ module Fun
     extend Defn
 
     defn :any_pred do |*predicates|
-      proc{|*args| predicates.any?{|p| p[*args]}}
+      lambda{|*args| predicates.any?{|p| p[*args]}}
     end
   end
 
