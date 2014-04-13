@@ -36,5 +36,17 @@ module Fun
     end
 
     attr_reader :__super_self__, :__block__
+
+    basic_object_methods = [:!, :!=, :==, :__id__, :__send__, :equal?, :instance_eval, :instance_exec,
+                            :method_missing, :singleton_method_added, :singleton_method_removed,
+                            :singleton_method_undefined]
+
+    keep_object_methods = [:method, :define_singleton_method, :instance_variable_set, :object_id]
+
+    object_methods = Object.new.methods
+
+    (object_methods - basic_object_methods - keep_object_methods).each do |name|
+      undef_method name
+    end
   end
 end
