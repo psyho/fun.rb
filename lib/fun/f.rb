@@ -3,6 +3,12 @@ module Fun
     class ImplicitArgumentsContext < ProcContext
       NAMES=('a'..'z').to_a
 
+      NAMES.each_with_index do |name, idx|
+        define_method name do
+          args[idx]
+        end
+      end
+
       def initialize(args, block)
         @__args__ = args
         __setup__context__(block)
@@ -14,17 +20,6 @@ module Fun
 
       def args
         @__args__
-      end
-
-      private
-
-      def respond_to_missing?(name, _)
-        NAMES.include?(name.to_s)
-      end
-
-      def method_missing(name, *args, &block)
-        return self.args[name.to_s.to_i(36) - 10] if respond_to_missing?(name, true)
-        __delegate_to_superself__(name, *args, &block)
       end
     end
 
